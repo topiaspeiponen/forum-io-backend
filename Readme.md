@@ -1,6 +1,6 @@
 # Overview
 
-Forum-io-backend is a backend service for for [forum-io frontend (Github repo)](https://github.com/topiaspeiponen/forum-io). This project was created with ASP.NET Core and largely follows the instructions provided in the [minimal API with ASP.NET Core tutorial](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-7.0&tabs=visual-studio-code).
+Forum-io-backend is a backend service for for [forum-io frontend (Github repo)](https://github.com/topiaspeiponen/forum-io). This project was created with ASP.NET Core and largely follows the instructions provided in the [minimal API with ASP.NET Core tutorial](https://learn.microsoft.com/en-us/aspnet/core/tutorials/min-web-api?view=aspnetcore-7.0&tabs=visual-studio-code). This app uses a in-memory database, meaning that saved data will be lost if the deployed container restarts.
 
 ## Local development
 
