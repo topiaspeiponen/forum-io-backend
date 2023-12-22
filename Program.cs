@@ -7,23 +7,23 @@ builder.Services.AddCors(
   opt => opt.AddPolicy("CorsPolicy", 
     policy => {
       // TODO: Allowed origin should be https://forum-io.fly.dev, but variable doesnt show up in Fly.io docker container
-      //var allowedOrigin = Environment.GetEnvironmentVariable("ASPNETCORE_ALLOWED_ORIGIN");
-      //if (allowedOrigin is string)
-      policy.WithOrigins("https://forum-io.fly.dev").AllowAnyHeader().AllowAnyMethod();
+      var allowedOrigin = Environment.GetEnvironmentVariable("ASPNETCORE_ALLOWED_ORIGIN");
+      if (allowedOrigin is string) policy.WithOrigins(allowedOrigin).AllowAnyHeader().AllowAnyMethod();
     }
 ));
 var app = builder.Build();
 
 app.UseCors("CorsPolicy");
-/*app.Use( async(context, next) => {
+app.Use( async(context, next) => {
   var allowedOrigin = Environment.GetEnvironmentVariable("ASPNETCORE_ALLOWED_ORIGIN");
+  Console.WriteLine($"Allowed origin: {allowedOrigin}");
   if (allowedOrigin is string && context.Request.Headers.Referer.ToString().Contains(allowedOrigin)) await next();
   else {
     context.Response.Clear();
     context.Response.StatusCode = 403;
     await context.Response.WriteAsync("Forbidden");
   }
-});*/
+});
 
 app.MapGet("/posts", async (PostDb db) => {
   return await db.Posts.Include(post => post.Comments).ToListAsync();
@@ -51,4 +51,4 @@ app.MapPost("/posts/{id}/comments", async (Comment comment, PostDb db) =>
     return Results.Created($"/posts/{comment.Id}/comments", comment);
 });
 
-app.Run("http://*:8080");
+app.Run();
